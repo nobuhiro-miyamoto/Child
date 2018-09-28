@@ -1,20 +1,65 @@
+
+
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="keywords" content="">
-        <meta name="description" content="">
-        <title>子ウィンドウ</title>
-        <script type="text/javascript" src="js/script.js"></script>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<title>Js_crossDomainテスト</title>
+<script language="javascript">
+<!--
+//呼び出し側から送られてくるデータの保存変数
+var send_obj;
+var set_flag = '';
+
+window.addEventListener("message", postData, false);
+
+function postData(ev){
+  //下記のように呼び出し元の確認をすることができます
+  if (ev.origin != "http://sasa.local:8080") {
+    return;
+  }
+  
+  //通信されたデータを受け取る
+  document.FormTest.bro_info.value = ev.origin + "からのメッセージを受信しました:<br>「" + ev.data + "」";
+
+  //呼び出し側のデータを保存
+  set_flag = '1';
+  send_obj = ev;
+}
+
+//送るデータをセットする
+function fnc_click(message) {
+  //呼び出し側からのデータが送られているか確認する
+  if (set_flag == '') {
+    alert('呼び出し元と通信しております。もうしばらくしてから番組を選択してください。※うまく設定できない場合は一度、閉じて再実行してください。');
+    return false;
+  }
+  
+  //親ウィンドーに送るデータの確認
+  if (confirm('「' + message + '」をセットしますが、よろしいでしょうか？')) {
+  
+    //親ウィンドーにデータを送る
+    send_obj.source.postMessage(message, send_obj.origin);
+  }
+  return false;
+}
+//-->
+</script>
+
+
 </head>
-</head>
+
 <body>
-        <header>
-                <h1>子ウィンドウ</h1>
-        </header>
-        <a href="#" onclick="open_window()">Window Open</a>
-        <br>
-        <input type="button" value="送信" onclick="sendMessage()"/>
+<form method="POST" name='FormTest'>
+<textarea name="bro_info" cols="50" rows="10">送られたメッセージを受け取る</textarea>
+</form>
+
+<form name=f1>
+<div id="program">
+<a href="#" onClick="javascript:fnc_click('こんにちは、親ウィンドーさん！');">通信テスト</a>
+<hr />
+<input type="button" value="　とじる　" onClick="javascript:window.close()">
+</div>
+</form>
 </body>
 </html>
