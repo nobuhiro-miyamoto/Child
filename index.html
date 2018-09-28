@@ -15,7 +15,7 @@ window.addEventListener("message", postData, false);
 
 function postData(ev){
   //下記のように呼び出し元の確認をすることができます
-  if (ev.origin != "http://sasa.local:8080") {
+  if (ev.origin != "http://127.0.0.1:5500") {
     return;
   }
   
