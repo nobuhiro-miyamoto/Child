@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>フレーム内</title>
+<script language="javascript">
+<!--
+
+var winEntPopup;
+
+//メッセージが送られたときに反応するイベントリスナー
+window.addEventListener("message", receiveData, false);
+
+//データを受け取る関数
+function receiveData(e) {
+    document.FormTest.bro_info.value =e.data;
+}
+
+//ポップアップで呼び出し
+function fnc_popupWindow(varUrl) {
+    wFeatures = "resizable=yes,status=yes,location=no,directories=no,menubar=no,scrollbars=yes,toolbar=no,width=1000,height=700,left=100,top=100";
+    winEntPopup = window.open(varUrl, "testpopup", wFeatures);
+    winEntPopup.focus();
+    
+    //読み込みまで待つため、あえて5秒後に問い合わせる
+    setTimeout("execute();", 5000);
+}
+function execute() {
+    winEntPopup.postMessage('こんにちは、小ウィンドーさん！通信できましたね！', '*');
+}
+
+-->
+</script>
+</head>
+<body>
+<h3>データ通信テスト用</h3>
+<form method="POST" name='FormTest'>
+<input type="button" value="別ウィンドーで開く" onClick="fnc_popupWindow('https://nobuhiro-miyamoto.github.io/Child/')"><br>
+<textarea name="bro_info" cols="50" rows="10">通信データがここに表示されます</textarea>
+<iframe src="https://">
+
+</iframe>
+</form>
+</body>
+</html>
+
