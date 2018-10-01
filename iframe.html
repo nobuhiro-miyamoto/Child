@@ -18,6 +18,7 @@ function receiveData(e) {
 
 //ポップアップで呼び出し
 function fnc_popupWindow(varUrl) {
+    varUrl = "://" +parent.location.href + "/" + varUrl;
     wFeatures = "resizable=yes,status=yes,location=no,directories=no,menubar=no,scrollbars=yes,toolbar=no,width=1000,height=700,left=100,top=100";
     winEntPopup = window.open(varUrl, "testpopup", wFeatures);
     winEntPopup.focus();
@@ -35,7 +36,7 @@ function execute() {
 <body>
 <h3>データ通信テスト用</h3>
 <form method="POST" name='FormTest'>
-<input type="button" value="別ウィンドーで開く" onClick="fnc_popupWindow('https://nobuhiro-miyamoto.github.io/Child/')"><br>
+<input type="button" value="別ウィンドーで開く" onClick="fnc_popupWindow('')"><br>
 <textarea name="bro_info" cols="50" rows="10">通信データがここに表示されます</textarea>
 </form>
 </body>
