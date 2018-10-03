@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>ここから0926</h1>
+  <!--<iframe id="ifrm" src="https://a48d8434.ngrok.io/test/cross_test.html" style="display:none;"></iframe>-->
+  <script>
+    var navi;
+    var select_quest;
+    /*function sendCross_Quest(i){
+      select_quest = document.getElementById('quest' + i).innerText;
+      console.log("選ばれた質問文:" + select_quest);
+      console.log("送信開始");
+		  var ifrm=document.getElementById('ifrm').contentWindow;
+	  	ifrm.postMessage(select_quest," https://a48d8434.ngrok.io/test/cross_test.html");
+      console.log("送信したつもり");
+    }*/
+    function sendCross_Quest(i){
+      select_quest = document.getElementById('quest' + i).innerText;
+      console.log("選ばれた質問文:" + select_quest);
+	  	if (!navi || navi.closed || navi == "undifine") {
+				window.removeEventListener("message", sendSelect_Quest, false);
+				window.addEventListener("message", sendSelect_Quest, false);
+				navi = window
+						.open('https://itsuki-hamano.github.io/toAC/toAC.html', 'pop',
+								'width=1000,height=1000,scrollbars=1,resizable=1,toolbar=1');//GET要求(open)先、新規で開く、サイズ指定
+				console.log(navi);
+			} else {
+				navi.focus();
+				//navi.location.href="https://a48d8434.ngrok.io/AC/index.html#/qa";
+				navi.postMessage(select_quest, '*');
+				console.log("すでに開いているwindow("+navi+")に質問文:" + select_quest + "を渡しました。");
+			}
+		return false;
+    }
+    
+		function sendSelect_Quest(event) {
+			console.log("event認知"+event.origin);
+			navi.postMessage(select_quest, '*');
+			console.log(event.origin);
+			console.log("子ウインドからの" + event.data + "を受け取ったので:'" + select_quest
+					+ "'を子ウインドウに送りました。");
+		}
+
+    var questions = ["保険っ  てな　んですか", "火災ではいくらぐらいもらえますか**/\|", "トレンドの保険は？", "契約期間について"];
+    for (i = 0; i < questions.length; i++) {
+      document.writeln("<p>↓（" + (i + 1) + "件目）代理店からのチャットメッセージです</p>");
+      document.writeln("<a href='#' id='quest" + i + "'  onclick='sendCross_Quest(" + i + ")'>" + questions[i] + "</a>");
+    }
+  </script>
+</body>
+
+</html>
