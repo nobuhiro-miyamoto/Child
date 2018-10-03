@@ -16,9 +16,11 @@ window.addEventListener("message", postData, false);
 function postData(ev){
   //下記のように呼び出し元の確認をすることができます
   alert(ev.origin);
+  /**
   if (ev.origin != "https://nobuhiro-miyamoto.github.io") {
     return;
   }
+  */
   
   //通信されたデータを受け取る
   document.FormTest.bro_info.value = ev.origin + "からのメッセージを受信しました:<br>「" + ev.data + "」";
